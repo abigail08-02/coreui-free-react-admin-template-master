@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom';
 const AsociacionesTable = ({ history})=> {
 
     const refFire = useFirestore();
-    const [uniones, setUniones] = useState([])
+    const [Asociaciones, setAsociaciones] = useState([])
 
 
     useEffect(() => {
 
         const traerDatos = async () => {
             const datosAsociaciones = []
-            const snapshots = await refFire.collection('uniones').get();
+            const snapshots = await refFire.collection('asociaciones').get();
             snapshots.docs.forEach(snap => {
 
                 datosUniones.push({
@@ -21,7 +21,7 @@ const AsociacionesTable = ({ history})=> {
                     ...snap.doc.data()
                 })
             })
-            setUniones(datosAsociaciones)
+            setAsociaciones(datosAsociaciones)
         }
 
         traerDatos()
@@ -31,8 +31,8 @@ const AsociacionesTable = ({ history})=> {
     return (
         <div className="card">
             <div className="card-body">
-                <h2 className="card-title">Uniones</h2>
-                <Link className="btn btn-primary" to="/uniones/add">Crear</Link>
+                <h2 className="card-title">Asociaciones</h2>
+                <Link className="btn btn-primary" to="/asociaciones/add">Crear</Link>
                 <table className="table table-sm">
                     <thead>
                         <tr>
@@ -46,7 +46,7 @@ const AsociacionesTable = ({ history})=> {
                     </thead>
                     <tbody>
                         {
-                        uniones.map((union, index)=> (
+                        asociaciones.map((union, index)=> (
                             <tr key={union.id}>
                                 <td>{
                                    
@@ -75,7 +75,7 @@ const AsociacionesTable = ({ history})=> {
                                 }</td>
                                 <td>
                                     <button onClick={ () => {
-                                        history.push('/uniones/edit/${union.id}')
+                                        history.push('/asociaciones/edit/${union.id}')
                                     }}
                                      className="btn btn-success btn-sm">
                                         <i className="cil-pencil"></i>

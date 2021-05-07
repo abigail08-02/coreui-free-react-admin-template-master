@@ -5,8 +5,12 @@ const Dashboard = React.lazy(() => import('../views/dashboard/Dashboard'));
 const Users = React.lazy(() => import('../views/users/Users'));
 const User = React.lazy(() => import('../views/users/User'));
 const Iglesias = React.lazy(() => import('./iglesias/Iglesias'));
-const Uniones = React.lazy(() => import('./uniones/Uniones'));
 const AddEditIglesia = React.lazy(() => import('./iglesias/AddEditIglesia'));
+const Uniones = React.lazy(() => import('./uniones/Uniones'));
+const AddEditUnion = React.lazy(() => import('./uniones/AddEditUnion'));
+const Asociaciones = React.lazy(() => import('./asociaciones/AsociacionesTable'));
+const AddEditAsociacion = React.lazy(() => import('./asociaciones/AddEditAsociacion'));
+
 
 const routes = [
   { path: '/', exact: true, name: 'Inico' },
@@ -18,6 +22,7 @@ const routes = [
   { path: '/uniones', exact: true, name: 'Uniones', component: Uniones },
   { path: '/uniones/add', exact: true, name: 'Añadir Uniones', component: AddEditUnion },
   { path: '/asociaciones', exact: true, name: 'Asociaciones', component: Asociaciones },
+  { path: '/asociaciones/add', exact: true, name: 'Añadir Asociaciones', component: AddEditAsociacion },
 
 ];
 
