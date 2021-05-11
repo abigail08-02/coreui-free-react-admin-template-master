@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const AsociacionesTable = ({ history})=> {
 
     const refFire = useFirestore();
-    const [Asociaciones, setAsociaciones] = useState([])
+    const [asociaciones, setAsociaciones] = useState([])
 
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const AsociacionesTable = ({ history})=> {
                     </thead>
                     <tbody>
                         {
-                        asociaciones.map(( asociacion, index)=> (
+                        asociaciones.map((asociacion, index)=> (
                             <tr key={asociacion.id}>
                                 <td>{
                                    
