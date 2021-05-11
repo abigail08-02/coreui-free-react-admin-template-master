@@ -5,9 +5,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 
 const schema = yup.object().shape({
+    id: yup.string(),
     nombre: yup.string().required('Es requerido'),
-    direccion: yup.string(),
-    telefono: yup.string(),
+    codigo: yup.string(),
+    zona: yup.string(),
+    union_id: yup.string(),
+    tesorero: yup.string(),
   });
 
 
@@ -30,6 +33,11 @@ const AddEdditAsociacion = ({history})=> {
         <div className="card">
             <div className="card-body">
                 <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="input-gruop">
+                            
+                            <label>Id</label>
+                            <input className="form-control" {...register('id')} />
+                        </div>
                     <div className="input-gruop">
                             
                         <label>Nombre</label>
@@ -38,13 +46,23 @@ const AddEdditAsociacion = ({history})=> {
                     </div>
                     <div className="input-gruop">
                             
-                        <label>Dirección</label>
-                        <input className="form-control" {...register('direccion')} />
+                        <label>Código</label>
+                        <input className="form-control" {...register('codigo')} />
                     </div>
                     <div className="input-gruop">
                             
-                        <label>Teléfono</label>
-                        <input className="form-control" {...register('telefono')} />
+                        <label>Zona</label>
+                        <input className="form-control" {...register('zona')} />
+                    </div>
+                    <div className="input-gruop">
+                            
+                        <label>Union_Id</label>
+                        <input className="form-control" {...register('union_id')} />
+                    </div>
+                    <div className="input-gruop">
+                            
+                        <label>Tesorero</label>
+                        <input className="form-control" {...register('tesorero')} />
                     </div>
 
                     <button className="btn btn-primary" type="submit">Guardar</button>

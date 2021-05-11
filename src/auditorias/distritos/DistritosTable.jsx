@@ -16,7 +16,7 @@ const AsociacionesTable = ({ history})=> {
             const snapshots = await refFire.collection('asociaciones').get();
             snapshots.docs.forEach(snap => {
 
-                datosAsociaciones.push({
+                datosUniones.push({
                     id: snap.doc.id,
                     ...snap.doc.data()
                 })
@@ -46,8 +46,8 @@ const AsociacionesTable = ({ history})=> {
                     </thead>
                     <tbody>
                         {
-                        asociaciones.map(( asociacion, index)=> (
-                            <tr key={asociacion.id}>
+                        asociaciones.map((union, index)=> (
+                            <tr key={union.id}>
                                 <td>{
                                    
                                     index + 1
@@ -55,27 +55,22 @@ const AsociacionesTable = ({ history})=> {
                                 }</td>
                                 <td>{
                                 
-                                    asociacion.nombre
+                                    union.nombre
                                 
                                 }</td>
                                 <td>{
                                     
-                                    asociacion.codigo
+                                    union.codigo
                                 
                                 }</td>
                                 <td>{
                                     
-                                    asociacion.zona
+                                    union.presidente
                                 
                                 }</td>
                                 <td>{
                                     
-                                    asociacion.union_id
-                                
-                                }</td>
-                                <td>{
-                                    
-                                    asociacion.tesorero
+                                    union.pais
                                 
                                 }</td>
                                 <td>
