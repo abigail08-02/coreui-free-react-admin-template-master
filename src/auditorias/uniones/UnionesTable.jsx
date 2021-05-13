@@ -15,10 +15,10 @@ const UnionesTable = ({ history})=> {
             const datosUniones = []
             const snapshots = await refFire.collection('uniones').get();
             snapshots.docs.forEach(snap => {
-
+    
                 datosUniones.push({
-                    id: snap.doc.id,
-                    ...snap.doc.data()
+                    id: snap.id,
+                    ...snap.data()
                 })
             })
             setUniones(datosUniones)
@@ -75,7 +75,7 @@ const UnionesTable = ({ history})=> {
                                 }</td>
                                 <td>
                                     <button onClick={ () => {
-                                        history.push('/uniones/edit/${union.id}')
+                                        history.push(`/uniones/edit/${union.id}`)
                                     }}
                                      className="btn btn-success btn-sm">
                                         <i className="cil-pencil"></i>

@@ -1,8 +1,9 @@
-//import { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup';
-
+import { useFirestore } from 'reactfire'
+import { toast } from 'react-toastify'
 
 const schema = yup.object().shape({
     nro: yup.string().required('Es requerido'),
@@ -10,19 +11,51 @@ const schema = yup.object().shape({
     codigo: yup.string(),
     presidente: yup.string(),
     pais: yup.string(),
-    editar: yup.string(),
   });
 
 
-const AddEdditUnion = ({history})=> {
+const AddEdditUnion = ({history, match})=> {
 
+    const { id } = match.params;
+    const isAddMode = !id;
 
-    const { register, handleSubmit, formState:{ errors } } = useForm({
+    const { register, handleSubmit, formState:{ errors }, setValue } = useForm({
         resolver: yupResolver(schema)
     })
 
+    const refFirestore = useFirestore().collection('uniones');
+
+    useEffect(() => {
+        const traerDatos = async ()=> {
+            const res = await (await refFirestore.doc(id).get()).data()
+            const fields = ['nombre', 'codigo', 'presidente', 'pais']
+            fields.forEach(field => setValue(field, res[field]))
+        }
+
+        if (!isAddMode)  {
+            traerDatos()
+        }
+
+    }, [refFirestore, setValue, isAddMode, id])
+
     const onSubmit = (datos)=> {
+        return isAddMode
+        ? crear (datos)
+        : actualizar(id, datos)
+    }
+
+    const crear = async  (datos) =>{
         console.log(datos)
+        await refFirestore.doc().set(datos)
+        toast('Union Creada con éxito')
+        history.push('..')
+    }
+
+    const actualizar = async  (id, datos) =>{
+        console.log(datos)
+        await refFirestore.doc(id).set(datos)
+        toast('Union Editada con éxito')
+        history.push('..')
     }
 
     const onCancelar = ()=> {
@@ -60,12 +93,6 @@ const AddEdditUnion = ({history})=> {
                             <label>País</label>
                             <input className="form-control" {...register('pais')} />
                     </div>
-                    <div className="input-gruop">
-                            
-                            <label>Editar</label>
-                            <input className="form-control" {...register('editar')} />
-                    </div>
-
                     <button className="btn btn-primary" type="submit">Guardar</button>
                     <button className="btn btn-warning" type="button" onClick={() => onCancelar()}>Cancelar</button>
                 </form>

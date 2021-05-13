@@ -80,7 +80,7 @@ const AsociacionesTable = ({ history})=> {
                                 }</td>
                                 <td>
                                     <button onClick={ () => {
-                                        history.push('/asociaciones/edit/${asociacion.id}')
+                                        history.push(`/asociaciones/edit/${asociacion.id}`)
                                     }}
                                      className="btn btn-success btn-sm">
                                         <i className="cil-pencil"></i>

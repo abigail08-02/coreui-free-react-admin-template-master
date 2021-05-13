@@ -3,30 +3,31 @@ import { useEffect, useState } from 'react'
 import 'firebase/firestore'
 import { Link } from 'react-router-dom';
 
-const AsociacionesTable = ({ history})=> {
+const DistritosTable = ({ history})=> {
 
     const refFire = useFirestore();
-    const [Asociaciones, setAsociaciones] = useState([])
+    const [distritos, setDistritos] = useState([])
 
 
     useEffect(() => {
 
         const traerDatos = async () => {
-            const datosAsociaciones = []
-            const snapshots = await refFire.collection('asociaciones').get();
+            const datosDistritos = []
+            const snapshots = await refFire.collection('Distritos').get();
             snapshots.docs.forEach(snap => {
 
-                datosUniones.push({
+                datosDistritos.push({
                     id: snap.doc.id,
                     ...snap.doc.data()
                 })
             })
-            setAsociaciones(datosAsociaciones)
+            setAsociaciones(datosDistritos)
         }
 
         traerDatos()
 
     }, [refFire])
+
 
     return (
         <div className="card">
