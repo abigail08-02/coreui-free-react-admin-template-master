@@ -2,6 +2,7 @@ import { useFirestore } from 'reactfire'
 import { useEffect, useState } from 'react'
 import 'firebase/firestore'
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const UnionesTable = ({ history})=> {
 
@@ -27,6 +28,20 @@ const UnionesTable = ({ history})=> {
         traerDatos()
 
     }, [refFire])
+
+    const eliminar = async (id) => {    
+        const respuesta = window.confirm('¿Seguro que quiere eliminar?');
+        if (respuesta) {
+            await refFire.collection('uniones').doc(id).delete();
+            toast('Eliminado')   
+            const temp = uniones.filter ((union) => {
+                console.log(union, id)
+                return union.id != id 
+            })
+            setUniones(temp)
+        }
+       
+    }
 
     return (
         <div className="card">
@@ -80,7 +95,7 @@ const UnionesTable = ({ history})=> {
                                      className="btn btn-success btn-sm">
                                         <i className="cil-pencil"></i>
                                     </button>
-                                     <button className="btn btn-danger btn-sm">
+                                     <button onClick={ () => eliminar(union.id)} className="btn btn-danger btn-sm">
                                         <i className="cil-trash"></i>
                                     </button>
                                 

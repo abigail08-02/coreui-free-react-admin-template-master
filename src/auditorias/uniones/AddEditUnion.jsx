@@ -18,12 +18,11 @@ const AddEdditUnion = ({history, match})=> {
 
     const { id } = match.params;
     const isAddMode = !id;
+    const refFirestore = useFirestore().collection('uniones');
 
     const { register, handleSubmit, formState:{ errors }, setValue } = useForm({
         resolver: yupResolver(schema)
     })
-
-    const refFirestore = useFirestore().collection('uniones');
 
     useEffect(() => {
         const traerDatos = async ()=> {
@@ -48,14 +47,14 @@ const AddEdditUnion = ({history, match})=> {
         console.log(datos)
         await refFirestore.doc().set(datos)
         toast('Union Creada con éxito')
-        history.push('..')
+        history.push('/uniones')
     }
 
     const actualizar = async  (id, datos) =>{
         console.log(datos)
         await refFirestore.doc(id).set(datos)
         toast('Union Editada con éxito')
-        history.push('..')
+        history.push('/uniones')
     }
 
     const onCancelar = ()=> {
