@@ -36,7 +36,7 @@ const UnionesTable = ({ history})=> {
             toast('Eliminado')   
             const temp = uniones.filter ((union) => {
                 console.log(union, id)
-                return union.id != id 
+                return union.id !== id 
             })
             setUniones(temp)
         }

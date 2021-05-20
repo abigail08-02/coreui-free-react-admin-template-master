@@ -5,7 +5,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 
 const schema = yup.object().shape({
-    id: yup.string(),
     nombre: yup.string().required('Es requerido'),
     codigo: yup.string(),
     zona: yup.string(),
@@ -33,11 +32,6 @@ const AddEdditAsociacion = ({history})=> {
         <div className="card">
             <div className="card-body">
                 <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="input-gruop">
-                            
-                            <label>Id</label>
-                            <input className="form-control" {...register('id')} />
-                        </div>
                     <div className="input-gruop">
                             
                         <label>Nombre</label>
