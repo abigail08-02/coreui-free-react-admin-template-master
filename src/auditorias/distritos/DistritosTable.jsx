@@ -32,7 +32,7 @@ const DistritosTable = ({ history})=> {
     const eliminar = async (id) => {    
         const respuesta = window.confirm('¿Seguro que quiere eliminar?');
         if (respuesta) {
-            await refFire.collection('uniones').doc(id).delete();
+            await refFire.collection('distritos').doc(id).delete();
             toast('Eliminado')   
             const temp = distritos.filter ((distrito) => {
                 console.log(distrito, id)

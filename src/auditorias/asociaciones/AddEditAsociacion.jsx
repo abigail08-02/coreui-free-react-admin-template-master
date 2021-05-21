@@ -1,7 +1,9 @@
-//import { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useFirestore } from 'reactfire'
+import { toast } from 'react-toastify'
 
 
 const schema = yup.object().shape({
@@ -13,15 +15,47 @@ const schema = yup.object().shape({
   });
 
 
-const AddEdditAsociacion = ({history})=> {
+  const AddEdditAsociacion = ({history, match})=> {
 
+    const { id } = match.params;
+    const isAddMode = !id;
+    const refFirestore = useFirestore().collection('asociaciones');
 
-    const { register, handleSubmit, formState:{ errors } } = useForm({
+    const { register, handleSubmit, formState:{ errors }, setValue } = useForm({
         resolver: yupResolver(schema)
     })
 
+    useEffect(() => {
+        const traerDatos = async ()=> {
+            const res = await (await refFirestore.doc(id).get()).data()
+            const fields = ['nombre', 'codigo', 'zona', 'union_id', 'tesorero']
+            fields.forEach(field => setValue(field, res[field]))
+        }
+
+        if (!isAddMode)  {
+            traerDatos()
+        }
+
+    }, [refFirestore, setValue, isAddMode, id])
+
     const onSubmit = (datos)=> {
+        return isAddMode
+        ? crear (datos)
+        : actualizar(id, datos)
+    }
+
+    const crear = async  (datos) =>{
         console.log(datos)
+        await refFirestore.doc().set(datos)
+        toast('Asociación Creada con éxito')
+        history.push('/asociaciones')
+    }
+
+    const actualizar = async  (id, datos) =>{
+        console.log(datos)
+        await refFirestore.doc(id).set(datos)
+        toast('Asociación Editada con éxito')
+        history.push('/asociaciones')
     }
 
     const onCancelar = ()=> {

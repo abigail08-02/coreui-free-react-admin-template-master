@@ -4,15 +4,14 @@ import 'firebase/firestore'
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const Iglesias = ({history})=> {
+const Auditorias = ({history}) => {
 
     const refFirestore = useFirestore();
-    const [iglesias, setIglesias] = useState([])
-
-
+    const [auditorias, setAuditorias] = useState([])
+    
     useEffect(() =>{
         const traerDatos = async () =>{
-           const snapshots = await refFirestore.collection('iglesias').get()
+           const snapshots = await refFirestore.collection('auditorias').get()
            const temporales = []
            snapshots.docs.forEach( (doc) => {
                 const elem = {
@@ -21,7 +20,7 @@ const Iglesias = ({history})=> {
                 }
                 temporales.push(elem)
            })
-           setIglesias(temporales)
+           setAuditorias(temporales)
         }
 
         traerDatos()
@@ -31,59 +30,71 @@ const Iglesias = ({history})=> {
     const eliminar = async (id) => {    
         const respuesta = window.confirm('¿Seguro que quiere eliminar?');
         if (respuesta) {
-            await refFirestore.collection('iglesias').doc(id).delete();
+            await refFirestore.collection('auditorias').doc(id).delete();
             toast('Eliminado')   
-            const temp = iglesias.filter ((iglesia) => {
-                console.log(iglesia, id)
-                return iglesia.id !== id 
+            const temp = auditorias.filter ((auditoria) => {
+                console.log(auditoria, id)
+                return auditoria.id !== id 
             })
-            setIglesias(temp)
+            setAuditorias(temp)
         }
        
     }
+    
 
-    return (
+    return(
         <div className="card">
             <div className="card-body">
-                <h2 className="card-title">Iglesias</h2>
-                <Link className="btn btn-primary" to="/iglesias/add">Crear</Link>
-                <table className="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Nro</th>
-                        <th>Nombre</th>
-                        <th>Dirección</th>
-                        <th>Teléfono</th>
-                    </tr>
-                </thead>
-                <tbody>
+                <h2 className="card-title">Auditorias</h2>
+                <Link className="btn btn-primary" to="/auditorias/add">Crear</Link>
+                    <table className="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Fecha</th>
+                                <th>Activo</th>
+                                <th>Iglesia_id</th>
+                                <th>Actual</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             {
-                                iglesias.map((iglesia, index) => (
-                                    <tr key={iglesia.id}>
+                                auditorias.map((auditoria, index) => (
+                                    <tr key={auditoria.id}>
                                         <td>{index + 1}</td>
                                             <td>{
                                             
-                                                iglesia.nombre
+                                                auditoria.nombre
                                             
                                             }</td>
                                             <td>{
                                                 
-                                                iglesia.direccion
+                                                auditoria.fecha
                                             
                                             }</td>
                                             <td>{
                                                 
-                                                iglesia.telefono
+                                                auditoria.iglesia
+                                            
+                                            }</td>
+                                            <td>{
+                                                
+                                                auditoria.actual
+                                            
+                                            }</td>
+                                            <td>{
+                                                
+                                                auditoria.editar
                                             
                                             }</td>
                                             <td>
                                             <button onClick={ () => {
-                                                    history.push(`/iglesias/edit/${iglesia.id}`)
+                                                    history.push(`/auditorias/edit/${auditoria.id}`)
                                                 }}
                                                 className="btn btn-success btn-sm">
                                                     <i className="cil-pencil"></i>
                                                 </button>
-                                                <button onClick={ () => eliminar(iglesia.id)} className="btn btn-danger btn-sm">
+                                                <button onClick={ () => eliminar(auditoria.id)} className="btn btn-danger btn-sm">
                                                     <i className="cil-trash"></i>
                                                 </button>
                                             
@@ -93,10 +104,10 @@ const Iglesias = ({history})=> {
                             }
                             
                         </tbody>
-                </table>
+                    </table>
             </div>
         </div>
     )
 }
 
-export default Iglesias
+export default Auditorias

@@ -2,10 +2,11 @@ import { useFirestore } from 'reactfire'
 import { useEffect, useState } from 'react'
 import 'firebase/firestore'
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const AsociacionesTable = ({ history})=> {
 
-    const refFire = useFirestore();
+    const refFirestore = useFirestore();
     const [asociaciones, setAsociaciones] = useState([])
 
 
@@ -13,12 +14,12 @@ const AsociacionesTable = ({ history})=> {
 
         const traerDatos = async () => {
             const datosAsociaciones = []
-            const snapshots = await refFire.collection('asociaciones').get();
+            const snapshots = await refFirestore.collection('asociaciones').get();
             snapshots.docs.forEach(snap => {
 
                 datosAsociaciones.push({
-                    id: snap.doc.id,
-                    ...snap.doc.data()
+                    id: snap.id,
+                    ...snap.data()
                 })
             })
             setAsociaciones(datosAsociaciones)
@@ -26,7 +27,21 @@ const AsociacionesTable = ({ history})=> {
 
         traerDatos()
 
-    }, [refFire])
+    }, [refFirestore])
+
+    const eliminar = async (id) => {    
+        const respuesta = window.confirm('¿Seguro que quiere eliminar?');
+        if (respuesta) {
+            await refFirestore.collection('asociaciones').doc(id).delete();
+            toast('Eliminado')   
+            const temp = asociaciones.filter ((asociacion) => {
+                console.log(asociacion, id)
+                return asociacion.id !== id 
+            })
+            setAsociaciones(temp)
+        }
+       
+    }
 
     return (
         <div className="card">
@@ -79,15 +94,15 @@ const AsociacionesTable = ({ history})=> {
                                 
                                 }</td>
                                 <td>
-                                    <button onClick={ () => {
-                                        history.push(`/asociaciones/edit/${asociacion.id}`)
-                                    }}
-                                     className="btn btn-success btn-sm">
-                                        <i className="cil-pencil"></i>
-                                    </button>
-                                     <button className="btn btn-danger btn-sm">
-                                        <i className="cil-trash"></i>
-                                    </button>
+                                <button onClick={ () => {
+                                       history.push(`/asociaciones/edit/${asociacion.id}`)
+                                       }}
+                                       className="btn btn-success btn-sm">
+                                           <i className="cil-pencil"></i>
+                                       </button>
+                                       <button onClick={ () => eliminar(asociacion.id)} className="btn btn-danger btn-sm">
+                                           <i className="cil-trash"></i>
+                                       </button>
                                 
                                 </td>
                             

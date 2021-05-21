@@ -7,17 +7,27 @@ import { toast } from 'react-toastify'
 
 
 const schema = yup.object().shape({
-    nombre: yup.string().required('Es requerido'),
-    direccion: yup.string(),
-    telefono: yup.string(),
+    fecha: yup.string().required('Es requerido'),
+    activo: yup.boolean(),
+    iglesia_id: yup.string(),
+    iglesia: yup.object().shape({
+        id: yup.string(),
+        nombre: yup.string(),
+        direccion: yup.string(),
+        telefono: yup.string(),
+    }),
+    actual: yup.boolean(),
+    createdAt: yup.date().default(function (){
+        return new Date;
+    }),
   });
 
 
-const AddEdditIglesia = ({history, match})=> {
+  const AddEdditAuditorias = ({history, match})=> {
 
     const { id } = match.params;
     const isAddMode = !id;
-    const refFirestore = useFirestore().collection('iglesias');
+    const refFirestore = useFirestore().collection('auditorias');
 
     const { register, handleSubmit, formState:{ errors }, setValue } = useForm({
         resolver: yupResolver(schema)
@@ -26,7 +36,7 @@ const AddEdditIglesia = ({history, match})=> {
     useEffect(() => {
         const traerDatos = async ()=> {
             const res = await (await refFirestore.doc(id).get()).data()
-            const fields = ['nombre', 'direccion', 'telefono']
+            const fields = ['fecha', 'activo', 'iglesia_id', 'actual']
             fields.forEach(field => setValue(field, res[field]))
         }
 
@@ -45,19 +55,19 @@ const AddEdditIglesia = ({history, match})=> {
     const crear = async  (datos) =>{
         console.log(datos)
         await refFirestore.doc().set(datos)
-        toast('Iglesia Creada con éxito')
-        history.push('/iglesias')
+        toast('Auditoria Creada con éxito')
+        history.push('/auditorias')
     }
 
     const actualizar = async  (id, datos) =>{
         console.log(datos)
         await refFirestore.doc(id).set(datos)
-        toast('Iglesia Editada con éxito')
-        history.push('/iglesias')
+        toast('Auditoria Editada con éxito')
+        history.push('/auditorias')
     }
 
     const onCancelar = ()=> {
-        history.push('iglesias')
+        history.push('/auditorias')
     }
 
     return (
@@ -66,19 +76,29 @@ const AddEdditIglesia = ({history, match})=> {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-gruop">
                             
-                        <label>Nombre</label>
-                        <input className="form-control" {...register('nombre')} />
+                        <label>Id</label>
+                        <input className="form-control" {...register('id')} />
                         { errors.nombre?.message}
                     </div>
                     <div className="input-gruop">
                             
-                        <label>Dirección</label>
-                        <input className="form-control" {...register('direccion')} />
+                        <label>Fecha</label>
+                        <input className="form-control" {...register('fecha')} />
                     </div>
                     <div className="input-gruop">
                             
-                        <label>Teléfono</label>
-                        <input className="form-control" {...register('telefono')} />
+                        <label>Activo</label>
+                        <input className="form-control" {...register('activo')} />
+                    </div>
+                    <div className="input-gruop">
+                            
+                        <label>Iglesia_id</label>
+                        <input className="form-control" {...register('iglesia_id')} />
+                    </div>
+                    <div className="input-gruop">
+                            
+                        <label>Actual</label>
+                        <input className="form-control" {...register('actual')} />
                     </div>
 
                     <button className="btn btn-primary" type="submit">Guardar</button>
@@ -89,4 +109,4 @@ const AddEdditIglesia = ({history, match})=> {
     )
 }
 
-export default AddEdditIglesia
+export default AddEdditAuditorias

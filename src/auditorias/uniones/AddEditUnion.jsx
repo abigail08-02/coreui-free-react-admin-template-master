@@ -65,12 +65,7 @@ const AddEdditUnion = ({history, match})=> {
         <div className="card">
             <div className="card-body">
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="input-gruop">
-                            
-                            <label>Nro</label>
-                            <input className="form-control" {...register('nro')} />
-                            { errors.nombre?.message}
-                        </div>
+                    
                     <div className="input-gruop">
                             
                             <label>Nombre</label>
