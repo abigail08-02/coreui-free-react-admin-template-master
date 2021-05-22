@@ -8,8 +8,10 @@ import { toast } from 'react-toastify'
 
 const schema = yup.object().shape({
     nombre: yup.string().required('Es requerido'),
-    direccion: yup.string(),
-    telefono: yup.string(),
+    codigo: yup.string(),
+    distrito_id: yup.string(),
+    tipo: yup.string(),
+    zona: yup.string(),
   });
 
 
@@ -57,7 +59,7 @@ const AddEdditIglesia = ({history, match})=> {
     }
 
     const onCancelar = ()=> {
-        history.push('iglesias')
+        history.push('/iglesias')
     }
 
     return (
@@ -72,15 +74,24 @@ const AddEdditIglesia = ({history, match})=> {
                     </div>
                     <div className="input-gruop">
                             
-                        <label>Dirección</label>
-                        <input className="form-control" {...register('direccion')} />
+                        <label>Código</label>
+                        <input className="form-control" {...register('codigo')} />
                     </div>
                     <div className="input-gruop">
                             
-                        <label>Teléfono</label>
-                        <input className="form-control" {...register('telefono')} />
+                        <label>Distrito_id</label>
+                        <input className="form-control" {...register('distrito_id')} />
                     </div>
-
+                    <div className="input-gruop">
+                            
+                        <label>Tipo</label>
+                        <input className="form-control" {...register('tipo')} />
+                    </div>
+                    <div className="input-gruop">
+                            
+                        <label>Zona</label>
+                        <input className="form-control" {...register('zona')} />
+                    </div>
                     <button className="btn btn-primary" type="submit">Guardar</button>
                     <button className="btn btn-warning" type="button" onClick={() => onCancelar()}>Cancelar</button>
                 </form>

@@ -50,10 +50,12 @@ const Iglesias = ({history})=> {
                 <table className="table table-sm">
                 <thead>
                     <tr>
-                        <th>Nro</th>
+                        <th>Id</th>
                         <th>Nombre</th>
-                        <th>Dirección</th>
-                        <th>Teléfono</th>
+                        <th>Código</th>
+                        <th>Distrito_id</th>
+                        <th>Tipo</th>
+                        <th>Zona</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,12 +70,22 @@ const Iglesias = ({history})=> {
                                             }</td>
                                             <td>{
                                                 
-                                                iglesia.direccion
+                                                iglesia.codigo
                                             
                                             }</td>
                                             <td>{
                                                 
-                                                iglesia.telefono
+                                                iglesia.distrito_id
+                                            
+                                            }</td>
+                                            <td>{
+                                                
+                                                iglesia.tipo
+                                            
+                                            }</td>
+                                            <td>{
+                                                
+                                                iglesia.zona
                                             
                                             }</td>
                                             <td>
