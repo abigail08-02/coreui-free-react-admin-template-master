@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import 'firebase/firestore'
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { FaPen, FaPlus, FaTrash } from 'react-icons/fa'
 
 const Auditorias = ({history}) => {
 
@@ -40,21 +41,39 @@ const Auditorias = ({history}) => {
         }
        
     }
-    
+
+
+    const setActual = async (id)=> {
+        let batch = refFirestore.batch();   
+        auditorias.forEach((audit) =>{
+            let elem = refFirestore.collection('auditorias').doc(audit.id)
+            const actual = audit.id === id ? true : false;  
+            batch.update(elem, { actual: actual })
+        })
+        await batch.commit();
+        toast('Actualizada actual')
+        //await refFirestore.collection('auditorias').doc(id).update({actual: true}) 
+        //toast('Actualizada actual')
+    }
+
 
     return(
         <div className="card">
             <div className="card-body">
                 <h2 className="card-title">Auditorias</h2>
-                <Link className="btn btn-primary" to="/auditorias/add">Crear</Link>
+                <Link className="btn btn-primary" to="/auditorias/add">
+                    <FaPlus style={{ marginRight: '5px', marginTop: '-3px' }}/>
+                    Crear
+                </Link>
                     <table className="table table-striped table-sm">
                         <thead>
                             <tr>
-                                <th>Id</th>
+                                <th>Nro</th>
                                 <th>Fecha</th>
-                                <th>Activo</th>
-                                <th>Iglesia_id</th>
+                                <th>Iglesias</th>
                                 <th>Actual</th>
+                                <th>Activo</th>
+                                <th>Editar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,28 +82,25 @@ const Auditorias = ({history}) => {
                                     <tr key={auditoria.id}>
                                         <td>{index + 1}</td>
                                             <td>{
-                                            
-                                                auditoria.nombre
-                                            
-                                            }</td>
-                                            <td>{
                                                 
                                                 auditoria.fecha
                                             
                                             }</td>
-                                            <td>{
-                                                
-                                                auditoria.iglesia
-                                            
-                                            }</td>
+                                            <td></td>
                                             <td>{
                                                 
                                                 auditoria.actual
+                                                ?
+                                                'ACTUAL'
+                                                :
+                                                <button onClick={ () => setActual(auditoria.id) } className="btn btn-primary btn-sm">
+                                                    Poner como actual
+                                                </button>
                                             
                                             }</td>
                                             <td>{
                                                 
-                                                auditoria.editar
+                                                auditoria.activo ? 'Si' : 'No'
                                             
                                             }</td>
                                             <td>
@@ -92,10 +108,10 @@ const Auditorias = ({history}) => {
                                                     history.push(`/auditorias/edit/${auditoria.id}`)
                                                 }}
                                                 className="btn btn-success btn-sm">
-                                                    <i className="cil-pencil"></i>
+                                                    <FaPen></FaPen>
                                                 </button>
                                                 <button onClick={ () => eliminar(auditoria.id)} className="btn btn-danger btn-sm">
-                                                    <i className="cil-trash"></i>
+                                                    <FaTrash></FaTrash>
                                                 </button>
                                             
                                             </td>

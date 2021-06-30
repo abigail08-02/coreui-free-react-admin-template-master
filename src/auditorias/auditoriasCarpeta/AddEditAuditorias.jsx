@@ -35,6 +35,7 @@ const schema = yup.object().shape({
 
     const [iglesias, setIglesias] = useState([])
 
+
     useEffect(() =>{
         const traerDatos = async () =>{
            const snapshots = await refFirestore.collection('iglesias').get()
@@ -63,7 +64,7 @@ const schema = yup.object().shape({
 
     const crear = async  (datos) =>{
         console.log(datos)
-        await refFirestore.doc().set(datos)
+        await refFirestore.collection('auditorias').doc().set(datos)
         toast('Auditoria Creada con éxito')
         history.push('/auditorias')
     }
@@ -95,17 +96,17 @@ const schema = yup.object().shape({
                     <div className="input-gruop">
                             
                         <label>Activo</label>
-                        <input value="0" type="radio" {...register('activo')} />
+                        <input value={true} type="radio" {...register('activo')} />
                         <label>Inactivo</label>
-                        <input value="1" type="radio" {...register('activo')} />
+                        <input value={false} type="radio" {...register('activo')} />
 
                     </div>
                     <div className="input-gruop">
                             
                             <label>Actual</label>
-                            <input value="0" type="radio" {...register('actual')} />
+                            <input value={true} type="radio" {...register('actual')} />
                             <label>No actual</label>
-                            <input value="1" type="radio" {...register('actual')} />
+                            <input value={false} type="radio" {...register('actual')} />
     
                     <Controller
                             name="iglesia"
