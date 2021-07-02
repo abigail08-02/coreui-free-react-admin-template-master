@@ -13,6 +13,7 @@ const Distritos = React.lazy(() => import('./distritos/DistritosTable'));
 const AddEditDistrito = React.lazy(() => import('./distritos/AddEditDistrito'));
 const Auditorias = React.lazy(() => import('./auditoriasCarpeta/Auditorias'));
 const AddEditAuditorias = React.lazy(() => import('./auditoriasCarpeta/AddEditAuditorias'));
+const DatosAuditoria = React.lazy(() => import('./datosAuditoria/DatosAuditoria'));
 
 
 const routes = [
@@ -31,6 +32,7 @@ const routes = [
   { path: '/distritos/add', exact: true, name: 'Añadir Distritos', component: AddEditDistrito },
   { path: '/auditorias', exact: true, name: 'Auditorias', component: Auditorias },
   { path: '/auditorias/add', exact: true, name: 'Añadir Auditorias', component: AddEditAuditorias },
+  { path: '/datos-auditoria', exact: true, name: 'Auditar', component: DatosAuditoria },
 
 ];
 
