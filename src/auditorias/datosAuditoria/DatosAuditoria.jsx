@@ -1,7 +1,7 @@
 import { useFirestore } from 'reactfire'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
-import { CCard, CCardHeader, CCardBody } from '@coreui/react';
+import { CCard, CCardHeader, CCardBody, CButton } from '@coreui/react';
 
 import SelectAnioMes from "./SelectAnioMes"
 
@@ -26,7 +26,7 @@ const DatosAuditoria = ({ history }) => {
                 auditTemp = { ...snapshot.data(), id: snapshot.id };
                 auditoriasFix.push(auditTemp);
 
-                if (auditTemp.actual == true) {
+                if (auditTemp.actual === true) {
                     setAuditoriaActual(auditTemp);
 
                     //Traer libros de la auditoria actual
@@ -82,16 +82,20 @@ const DatosAuditoria = ({ history }) => {
                           {
                               auditoriaActual.id
                               ?
-                              <SelectAnioMes auditoriaId = {auditoriaActual}/>
+                              <SelectAnioMes auditoriaId = {auditoriaActual.id}/>
                               :
                               'Establezca auditoria actual'
                           }
 
-                    <table>
+                    <table className="table table-responsive table-condensed">
                         <thead>
                             <tr>
-                                <th>Nro</th>
+                                <th>Nro</th>                              
+                                <th>Año</th>                          
                                 <th>Mes</th>
+                                <th>Diezmo</th>
+                                <th>Ofrendas</th>
+                                <th>Total</th>
                             </tr>
                         </thead>
                         
@@ -101,7 +105,10 @@ const DatosAuditoria = ({ history }) => {
                                     return (
                                         <tr key={libMensual.id}>
                                             <td>{index + 1}</td>
-                                            <td>{libMensual.mes}</td>
+                                            <td>{libMensual.anio}</td>
+                                            <td>
+                                                <CButton color="success" size="sm">{libMensual.mes}</CButton>
+                                            </td>
                                         </tr>
                                     )
                                 })    

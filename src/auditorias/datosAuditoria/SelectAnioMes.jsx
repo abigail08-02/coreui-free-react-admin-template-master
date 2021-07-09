@@ -3,6 +3,7 @@ import { useFirestore } from 'reactfire'
 import { toast } from 'react-toastify';
 import { FaPlus } from 'react-icons/fa';
 import { useState } from 'react'
+import { CTooltip } from '@coreui/react';
 
 const SelectAnioMes = ({auditoriaId}) => {
 
@@ -52,9 +53,11 @@ const SelectAnioMes = ({auditoriaId}) => {
         
             </select>
 
-            <button className="btn btn-primary" onClick={() => crearLibroMes() }>
-                <FaPlus />
-            </button>
+            <CTooltip content="Agregar libro mes">
+                <button className="btn btn-primary" onClick={() => crearLibroMes() }>
+                    <FaPlus />
+                </button>
+            </CTooltip>
 
         </>
     )
