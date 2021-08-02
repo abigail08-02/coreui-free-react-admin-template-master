@@ -3,7 +3,7 @@ import { useFirestore } from 'reactfire'
 import { toast } from 'react-toastify';
 import { FaPlus } from 'react-icons/fa';
 import { useState } from 'react'
-import { CTooltip } from '@coreui/react';
+import { CTooltip } from '@coreui/react'
 
 const SelectAnioMes = ({auditoriaId}) => {
 
@@ -20,9 +20,18 @@ const SelectAnioMes = ({auditoriaId}) => {
         })
     }
 
+
     const crearLibroMes = async () => {
         console.log('A guardar')
-        const res = await refFire.collection('lib_mensuales').doc().set({...datosNewLibroMes, auditoria_id: auditoriaId})
+        const tokeep =  {
+            ...datosNewLibroMes,
+            diezmos: 0,
+            ofrendas: 0,
+            especiales: 0
+        }
+        setDatosNewLibroMes((estado) => tokeep )
+        console.log(tokeep)
+        const res = await refFire.collection('lib_mensuales').doc().set({...tokeep, auditoria_id: auditoriaId})
         console.log(res)
         toast.success('Agregado.')
     }
@@ -34,24 +43,23 @@ const SelectAnioMes = ({auditoriaId}) => {
                 <option value="2022">2022</option>
                 <option value="2023">2023</option>
                 <option value="2024">2024</option>
-                <option value="2025">2025</option>
             </select>
             
             <select onChange={ (e) => handlerDatosLibroMes(e)} name="mes" multiple style={{padding: 5, margin: 5, borderRadius: 5}}>
                 <option value="Enero">Enero</option>
                 <option value="Febrero">Febrero</option>
-                <option value="Marzo">Marzo</option>
-                <option value="Abril">Abril</option>
-                <option value="Mayo">Mayo</option>
-                <option value="Junio">Junio</option>
-                <option value="Julio">Julio</option>
-                <option value="Agosto">Agosto</option>
-                <option value="Septiembre">Septiembre</option>
-                <option value="Octubre">Octubre</option>
+                <option value="Noviembre">Marzo</option>
+                <option value="Noviembre">Abril</option>
+                <option value="Noviembre">Mayo</option>
+                <option value="Noviembre">Junio</option>
+                <option value="Noviembre">Julio</option>
+                <option value="Noviembre">Agosto</option>
+                <option value="Noviembre">Septiembre</option>
+                <option value="Noviembre">Octubre</option>
                 <option value="Noviembre">Noviembre</option>
                 <option value="Diciembre">Diciembre</option>
-        
             </select>
+
 
             <CTooltip content="Agregar libro mes">
                 <button className="btn btn-primary" onClick={() => crearLibroMes() }>
